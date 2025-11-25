@@ -350,7 +350,7 @@ with tab2:
         
     fig = px.bar(
         fr_by_task, x='fill_rate', y='task_type', orientation='h',
-        title=f"Fill Rate по Топ-{top_n_tasks} группам заданий",
+        title=f"Fill Rate по Топ-{top_n_tasks} типам заданий",
         labels={'task_type': 'Тип задания', 'fill_rate': 'Fill Rate'},
         text_auto='.1%', template='plotly_white'
     )
@@ -625,6 +625,7 @@ with tab4:
     st.plotly_chart(fig_retention, use_container_width=True)
 
     st.caption("Кривая показывает, какой процент пользователей еще *не* забронировал вторую (или третью) смену к N-му дню.")
+
 
 
 
