@@ -315,7 +315,7 @@ with tab2:
         fr_by_group = fr_by_group.nlargest(top_n_groups, 'count').sort_values('fill_rate', ascending=False)
         
         fig = px.bar(
-            fr_by_task, x='fill_rate', y='task_group', orientation='h',
+            fr_by_group, x='fill_rate', y='task_group', orientation='h',
             title=f"Fill Rate по Топ-{top_n_groups} группам заданий",
             labels={'task_group': 'Группа задания', 'fill_rate': 'Fill Rate'},
             text_auto='.1%', template='plotly_white'
@@ -625,6 +625,7 @@ with tab4:
     st.plotly_chart(fig_retention, use_container_width=True)
 
     st.caption("Кривая показывает, какой процент пользователей еще *не* забронировал вторую (или третью) смену к N-му дню.")
+
 
 
 
