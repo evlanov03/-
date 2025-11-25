@@ -312,7 +312,7 @@ with tab2:
         top_n_groups = st.slider("Показать Топ-N групп заданий (по кол-ву смен):", min_value=5, max_value=50, value=15, step=5, key='groups_slider')
 
         fr_by_group = filtered_shifts.groupby('task_group')['job_done'].agg(fill_rate='mean', count='size').reset_index()
-        fr_by_group = fr_by_task.nlargest(top_n_groups, 'count').sort_values('fill_rate', ascending=False)
+        fr_by_group = fr_by_group.nlargest(top_n_groups, 'count').sort_values('fill_rate', ascending=False)
         
         fig = px.bar(
             fr_by_task, x='fill_rate', y='task_group', orientation='h',
@@ -625,5 +625,6 @@ with tab4:
     st.plotly_chart(fig_retention, use_container_width=True)
 
     st.caption("Кривая показывает, какой процент пользователей еще *не* забронировал вторую (или третью) смену к N-му дню.")
+
 
 
