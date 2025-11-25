@@ -308,15 +308,15 @@ with tab2:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("FR по группам задания")
-        top_n_tasks = st.slider("Показать Топ-N групп заданий (по кол-ву смен):", min_value=5, max_value=50, value=15, step=5, key='tasks_slider')
+        st.subheader("FR по группам заданий")
+        top_n_groups = st.slider("Показать Топ-N групп заданий (по кол-ву смен):", min_value=5, max_value=50, value=15, step=5, key='groups_slider')
 
-        fr_by_task = filtered_shifts.groupby('task_group')['job_done'].agg(fill_rate='mean', count='size').reset_index()
-        fr_by_task = fr_by_task.nlargest(top_n_tasks, 'count').sort_values('fill_rate', ascending=False)
+        fr_by_group = filtered_shifts.groupby('task_group')['job_done'].agg(fill_rate='mean', count='size').reset_index()
+        fr_by_group = fr_by_task.nlargest(top_n_tasks, 'count').sort_values('fill_rate', ascending=False)
         
         fig = px.bar(
             fr_by_task, x='fill_rate', y='task_group', orientation='h',
-            title=f"Fill Rate по Топ-{top_n_tasks} группам заданий",
+            title=f"Fill Rate по Топ-{top_n_groups} группам заданий",
             labels={'task_group': 'Группа задания', 'fill_rate': 'Fill Rate'},
             text_auto='.1%', template='plotly_white'
         )
@@ -342,6 +342,20 @@ with tab2:
         else:
             st.warning("Колонка 'duration' отсутствует.")
 
+    st.subheader("FR по типам заданий")
+    top_n_tasks = st.slider("Показать Топ-N типов заданий (по кол-ву смен):", min_value=5, max_value=50, value=15, step=5, key='tasks_slider')
+
+    fr_by_task = filtered_shifts.groupby('task_type')['job_done'].agg(fill_rate='mean', count='size').reset_index()
+    fr_by_task = fr_by_task.nlargest(top_n_tasks, 'count').sort_values('fill_rate', ascending=False)
+        
+    fig = px.bar(
+        fr_by_task, x='fill_rate', y='task_type', orientation='h',
+        title=f"Fill Rate по Топ-{top_n_tasks} группам заданий",
+        labels={'task_type': 'Тип задания', 'fill_rate': 'Fill Rate'},
+        text_auto='.1%', template='plotly_white'
+    )
+    st.plotly_chart(fig, use_container_width=True)
+    
     col1, col2 = st.columns(2)
     
     with col1:
@@ -611,3 +625,4 @@ with tab4:
     st.plotly_chart(fig_retention, use_container_width=True)
 
     st.caption("Кривая показывает, какой процент пользователей еще *не* забронировал вторую (или третью) смену к N-му дню.")
+
